@@ -1,5 +1,4 @@
-name: 
-  lylme_spage
+name: lylme_spage
 build:
   dockerfile: ./php/Dockerfile
 services:

@@ -1,4 +1,5 @@
-name: your-app-name
+name: 
+  lylme_spage
 build:
   dockerfile: ./php/Dockerfile
 services:

@@ -1,35 +1,27 @@
-version: '3'
 services:
-  php:
-    image: php74-fpm-alpine
-    build: ./php
-    restart: always
-    volumes:
-      - /var/www/html:/var/www/html
-    environment:
-      - TIMEZONE=Asia/Shanghai
-  nginx:
-    image: nginx:latest
-    restart: always
-    ports:
-      - 80:80
-    volumes:
-      - /var/www/html:/var/www/html
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/log:/var/log/nginx/
-    environment:
-      - TIMEZONE=Asia/Shanghai
-  mysql:
-    image: mysql:5.7
-    restart: always
-    volumes:
-      - /var/lib/mysql:/var/lib/mysql
-    environment:
-      - TIMEZONE=Asia/Shanghai
-      - MYSQL_ROOT_PASSWORD=123456
-      - MYSQL_DATABASE=spage
-networks:
-  default:
-    driver: bridge
-environment:
-  TIMEZONE: Asia/Shanghai
+  - type: web
+    name: spage-web
+    env: docker
+    dockerfilePath: ./
+    buildCommand: docker build -t php74-fpm-alpine ./php
+    startCommand: docker-compose up -d
+    envVars:
+      - key: TZ
+        value: Asia/Shanghai
+    autoDeploy: true
+    
+  - type: database
+    name: spage-db
+    env: docker
+    dockerImage: mysql:5.7
+    region: oregon
+    plan: starter
+    envVars:
+      - key: TZ
+        value: Asia/Shanghai
+      - key: MYSQL_ROOT_PASSWORD
+        value: 123456
+      - key: MYSQL_DATABASE
+        value: spage
+    numInstances: 1
+    autoDeploy: true

@@ -1,4 +1,4 @@
-name: lylme_spage
+name: your-app-name
 build:
   dockerfile: ./php/Dockerfile
 services:
@@ -6,11 +6,13 @@ services:
     name: spage-web
     env: docker
     dockerfilePath: ./php/Dockerfile
+    ports:
+      - "8080:80"
     envVars:
       - key: TZ
         value: Asia/Shanghai
-    ports:
-      - "8080:80"
+      - key: PHP_WORKING_DIR
+        value: /var/www/html
   - type: database
     name: spage-db
     env: docker

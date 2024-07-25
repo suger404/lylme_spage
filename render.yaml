@@ -1,6 +1,3 @@
-name: lylme_spage
-build:
-  dockerfile: ./php/Dockerfile
 services:
   - type: web
     name: spage-web

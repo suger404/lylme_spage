@@ -1,21 +1,20 @@
+name: your-app-name
+build:
+  dockerfile: ./php/Dockerfile
 services:
   - type: web
     name: spage-web
     env: docker
-    dockerfilePath: ./
-    buildCommand: docker build -t php74-fpm-alpine ./php
-    startCommand: docker-compose up -d
+    dockerfilePath: ./php/Dockerfile
     envVars:
       - key: TZ
         value: Asia/Shanghai
-    autoDeploy: true
-    
+    ports:
+      - "8080:80"
   - type: database
     name: spage-db
     env: docker
     dockerImage: mysql:5.7
-    region: oregon
-    plan: starter
     envVars:
       - key: TZ
         value: Asia/Shanghai
@@ -23,5 +22,5 @@ services:
         value: 123456
       - key: MYSQL_DATABASE
         value: spage
+    port: 3306
     numInstances: 1
-    autoDeploy: true

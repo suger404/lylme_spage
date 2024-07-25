@@ -1,0 +1,35 @@
+version: '3'
+services:
+  php:
+    image: php74-fpm-alpine
+    build: ./php
+    restart: always
+    volumes:
+      - /var/www/html:/var/www/html
+    environment:
+      - TIMEZONE=Asia/Shanghai
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - /var/www/html:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/log:/var/log/nginx/
+    environment:
+      - TIMEZONE=Asia/Shanghai
+  mysql:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql
+    environment:
+      - TIMEZONE=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=spage
+networks:
+  default:
+    driver: bridge
+environment:
+  TIMEZONE: Asia/Shanghai
